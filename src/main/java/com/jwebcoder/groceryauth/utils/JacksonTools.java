@@ -22,7 +22,7 @@ public class JacksonTools {
         return object;
     }
 
-    public String writteObjectToValue(Object o) {
+    public static String writteObjectToValue(Object o) {
         String json = null;
         try {
             json = mapper.writeValueAsString(o);

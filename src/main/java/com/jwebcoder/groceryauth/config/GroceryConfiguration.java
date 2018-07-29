@@ -1,6 +1,6 @@
 package com.jwebcoder.groceryauth.config;
 
-import com.jwebcoder.groceryauth.interceptor.GroceryCoreInterceptor;
+import com.jwebcoder.groceryauth.common.interceptor.GroceryCoreInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
