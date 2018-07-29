@@ -2,7 +2,7 @@ package com.jwebcoder.groceryauth.common.interceptor;
 
 import com.jwebcoder.groceryauth.config.CustomProperty;
 import com.jwebcoder.groceryauth.common.entity.SystemUser;
-import com.jwebcoder.groceryauth.utils.JacksonTools;
+import com.jwebcoder.groceryauth.common.utils.JacksonTools;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;

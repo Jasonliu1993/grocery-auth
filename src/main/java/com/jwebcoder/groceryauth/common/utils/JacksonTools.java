@@ -1,4 +1,4 @@
-package com.jwebcoder.groceryauth.utils;
+package com.jwebcoder.groceryauth.common.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
