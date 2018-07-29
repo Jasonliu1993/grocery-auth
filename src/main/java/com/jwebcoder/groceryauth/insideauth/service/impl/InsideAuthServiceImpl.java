@@ -76,20 +76,18 @@ public class InsideAuthServiceImpl implements InsideAuthService {
         PersonalInfo personalInfo = new PersonalInfo();
         SystemUserDTO systemUserDTO = new SystemUserDTO();
 
+        personalInfo.setAvator("1");
+        personalInfoRepository.save(personalInfo);
+
         systemUser.setUserName(userName);
-        systemUser.setPassword(password4Register);
+        systemUser.setPassword(EncryptionUtility.encrypt4MD5(password4Register));
         systemUser.setType("custom");
         systemUser.setEmail(activeEmail);
         systemUser.setCreateDatetime(DateUtility.getCurrentDate());
         systemUser.setLastLoginDatetime(DateUtility.getCurrentDate());
-        systemUserRepository.save(systemUser);
-
-        personalInfo.setVersion(1);
-        personalInfo.setUserId(systemUser.getId());
-        personalInfo.setAvator("1");
-
-        personalInfoRepository.save(personalInfo);
         systemUser.setPersonalInfo(personalInfo);
+
+        systemUserRepository.save(systemUser);
         BeanUtils.copyProperties(systemUser, systemUserDTO);//忽略属性拷贝
         setTokenToRedis(systemUserDTO);
         return systemUserDTO;
