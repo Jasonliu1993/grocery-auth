@@ -8,9 +8,12 @@ import com.jwebcoder.groceryauth.common.repository.PersonalInfoRepository;
 import com.jwebcoder.groceryauth.common.repository.SystemUserRepository;
 import com.jwebcoder.groceryauth.common.utils.DateUtility;
 import com.jwebcoder.groceryauth.common.utils.EncryptionUtility;
+import com.jwebcoder.groceryauth.common.utils.JacksonTools;
+import com.jwebcoder.groceryauth.common.utils.TokenUtility;
 import com.jwebcoder.groceryauth.insideauth.service.InsideAuthService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -18,6 +21,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Jason on 11/10/2017.
@@ -31,6 +35,9 @@ public class InsideAuthServiceImpl implements InsideAuthService {
 
     @Autowired
     private PersonalInfoRepository personalInfoRepository;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     /**
      * 登录认证
@@ -48,6 +55,8 @@ public class InsideAuthServiceImpl implements InsideAuthService {
             systemUser.setLastLoginDatetime(DateUtility.getCurrentDate());
             systemUserRepository.save(systemUser);
             BeanUtils.copyProperties(systemUser, systemUserDTO);//忽略属性拷贝
+            setTokenToRedis(systemUserDTO);
+            return systemUserDTO;
         }
         return null;
     }
@@ -82,6 +91,7 @@ public class InsideAuthServiceImpl implements InsideAuthService {
         personalInfoRepository.save(personalInfo);
         systemUser.setPersonalInfo(personalInfo);
         BeanUtils.copyProperties(systemUser, systemUserDTO);//忽略属性拷贝
+        setTokenToRedis(systemUserDTO);
         return systemUserDTO;
     }
 
@@ -138,6 +148,11 @@ public class InsideAuthServiceImpl implements InsideAuthService {
         }
 
         return authInfo;
+    }
+
+    private void setTokenToRedis(SystemUserDTO systemUserDTO) {
+        String token = TokenUtility.newToken();
+        redisTemplate.opsForValue().set(token, JacksonTools.writteObjectToValue(systemUserDTO), 1L, TimeUnit.HOURS);
     }
 
 }
