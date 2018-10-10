@@ -17,4 +17,9 @@ public interface SystemUserRepository extends CrudRepository<SystemUser, String>
     @Query(value = "SELECT COUNT(*) FROM SYSTEM_USER WHERE EMAIL = ?1", nativeQuery = true)
     Integer checkEmail(String email);
 
+    @Query(value = "SELECT * FROM SYSTEM_USER WHERE (USER_NAME = ?1 OR EMAIL = ?1) AND PASSWORD = ?2", nativeQuery = true)
+    SystemUser Auth(String userNameOrEmail, String password);
+
+    SystemUser findByUserName(String userName);
+
 }
