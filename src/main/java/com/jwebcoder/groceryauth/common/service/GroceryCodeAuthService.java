@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-@Service
+//@Service
 public class GroceryCodeAuthService extends RandomValueAuthorizationCodeServices {
 
     @Autowired
