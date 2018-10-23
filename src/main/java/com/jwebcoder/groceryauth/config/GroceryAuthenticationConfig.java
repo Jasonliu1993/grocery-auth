@@ -2,9 +2,11 @@ package com.jwebcoder.groceryauth.config;
 
 import com.jwebcoder.groceryauth.common.service.MyRedisTokenStore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -33,6 +35,11 @@ public class GroceryAuthenticationConfig extends AuthorizationServerConfigurerAd
 
     @Autowired
     private RedisConnectionFactory connectionFactory;
+
+
+    @Autowired
+    @Qualifier("groceryUserDetailService")
+    private UserDetailsService userDetailsService;
 
 
     @Bean
@@ -89,7 +96,7 @@ public class GroceryAuthenticationConfig extends AuthorizationServerConfigurerAd
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.authenticationManager(authenticationManager)
                 .tokenStore(this.tokenStore())
-                // .userDetailsService(userDetailsService)
+                 .userDetailsService(userDetailsService)
                 // .userApprovalHandler(userApprovalHandler())
                 .authorizationCodeServices(this.authorizationCodeServices());
 

@@ -7,12 +7,12 @@ spring:
   application:
     name: groceryAuth
 
-security:
-  oauth2:
-    resource:
-      id: resource
-      user-info-uri: http://localhost:${server.port}/uaa/user
-      prefer-token-info: false
+#security:
+#  oauth2:
+#    resource:
+#      id: resource
+#      user-info-uri: http://localhost:${server.port}/uaa/user
+#      prefer-token-info: false
 
 ---
 #服务注册中心端口号

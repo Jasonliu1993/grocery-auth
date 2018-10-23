@@ -41,6 +41,7 @@ public class GrocerSecurityConfig extends WebSecurityConfigurerAdapter {
         auth
                 .userDetailsService(userDetailsService);
 //                .passwordEncoder(passwordEncoder());
+        super.configure(auth);
     }
 
     /*@Bean
